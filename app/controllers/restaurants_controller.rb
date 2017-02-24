@@ -18,7 +18,7 @@ class RestaurantsController < ApplicationController
     else
       render 'new'
     end
-end
+  end
 
   def restaurant_params
     params.require(:restaurant).permit(:name, :description, current_user.id)
@@ -35,15 +35,18 @@ end
   def update
     @restaurant = Restaurant.find(params[:id])
     @restaurant.update(restaurant_params)
-
     redirect_to '/restaurants'
   end
+
   def destroy
     @restaurant = Restaurant.find(params[:id])
-    @restaurant.destroy
-    flash[:notice] = 'Restaurant deleted successfully'
+    if @restaurant.user_id == current_user.id
+      @restaurant.destroy
+      flash[:notice] = 'Restaurant deleted successfully'
+    else
+      flash[:notice] = "Error! restaurant can't be deleted"
+    end
     redirect_to '/restaurants'
   end
-
 
 end

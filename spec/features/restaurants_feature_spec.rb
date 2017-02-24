@@ -69,6 +69,7 @@ feature 'restaurants' do
   context 'editing restaurants' do
 
   before { Restaurant.create name: 'KFC', description: 'Deep fried goodness', id: 1 }
+
   scenario 'let a user edit a restaurant' do
     visit '/restaurants'
     click_link 'Edit KFC'
@@ -82,16 +83,23 @@ feature 'restaurants' do
   end
 end
 
-context 'deleting restaurants' do
-
+  context 'deleting restaurants' do
+#
   before { Restaurant.create name: 'KFC', description: 'Deep fried goodness' }
 
-  scenario 'removes a restaurant when a user clicks a delete link' do
-    visit '/restaurants'
-    click_link 'Delete KFC'
-    expect(page).not_to have_content 'KFC'
-    expect(page).to have_content 'Restaurant deleted successfully'
+    scenario "a user should only be able to change his own restaurants" do
+      visit('/')
+      click_link('Sign out')
+      click_link('Sign up')
+      fill_in('Email', with: 'frankie@frankie.com')
+      fill_in('Password', with: 'frankiefrankie')
+      fill_in('Password confirmation', with: 'frankiefrankie')
+      click_button('Sign up')
+      visit '/restaurants'
+      click_link 'Delete KFC'
+      expect(page).to have_content "Error! restaurant can't be deleted"
+    end
   end
-end
+
 
 end
