@@ -17,7 +17,7 @@ Clone of Yelp site using ruby on rails technology, raw practice version to pract
 - Visit `http://localhost:3000` to view the app in your browser
 
 ## Running tests
-- Run `rspec` from the `/painLess` directory
+- Run `rspec` 
 - Currently shows `16 examples, 0 failures`
 
 ## Technology Stack
